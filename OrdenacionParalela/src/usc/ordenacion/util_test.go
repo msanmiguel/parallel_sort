@@ -13,3 +13,9 @@ func TestEstaOrdenado(t *testing.T){
 
 }
 
+func TestCrearArrayAleatorio(t *testing.T) {
+	array := CrearArrayAleatorio(100)
+	if len(array) != 100 {
+		t.Errorf("La longitud del array creado no es correcta");
+	}
+}
