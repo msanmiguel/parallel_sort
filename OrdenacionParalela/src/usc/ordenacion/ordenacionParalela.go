@@ -25,19 +25,16 @@ func ordenaQuicksortParalelo(a []int, c chan int){
 func funcion(a []int, salto int, c chan int, k int){
 	for i:=k+salto; i<len(a);i+=salto {
 		p := a[i]
-		for j:=i-salto; j>=0 && a[j]>p; j-=salto{
-			if a[j] > p { 
+		j:=i-salto
+		for ; j>=0 && a[j]>p; j-=salto{
 				a[j+salto]=a[j]
-			} else {
-				a[j] = p
-				break
 			}
-		}
+				a[j+salto] = p	
 	}
 	c <-0
 }
 
-func OrdenaShellsortParalelo(a []int) []int{
+func OrdenaShellsortParalelo(a []int){
 	salto:= len(a)/2
 	c := make(chan int)
 	for salto >= 1 {
@@ -50,7 +47,7 @@ func OrdenaShellsortParalelo(a []int) []int{
 		}
 		salto=salto/2
 	}
-	return a
 }
+
 
 

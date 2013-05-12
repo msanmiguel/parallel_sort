@@ -1,11 +1,6 @@
 package ordenacion
 
-import (
-	"fmt"
-	//"os"
-)
-
-func OrdenaBurbuja1(a []int) []int{
+func OrdenaBurbuja1(a []int){
 	i:=0
 	j:=0
 	n:=len(a)
@@ -17,43 +12,39 @@ func OrdenaBurbuja1(a []int) []int{
 				a[j+1]= aux
 			}
 		}
-	
 	}
-	return a
 
 }
 
-
-func OrdenaInsercion1(a []int) []int{
+func OrdenaInsercion1(a []int){
 
 	for i:=1; i<len(a);i++{
 		p := a[i]
-		for j:=i-1; j>=0; j--{
-			if a[j] > p{ 
-				a[j+1]=a[j]
-			}else{
-				a[j] = p
-				break
-			}
+		j := i-1
+		for ; j>=0 && a[j]>p; j--{
+			a[j+1]=a[j]
 		}
+		a[j+1] = p
 	}
-	return a
+}
+func OrdenaMergesort1(a []int){
+	b:= ordenaMergesort1(a)
+	copy(a,b)
 }
 
-
-func OrdenaMergesort1(a []int) []int{
+func ordenaMergesort1(a []int) []int{
 	//a2:=make([]int, len(a)-len(a)/2)
 	// si a tiene 0 o 1 elementos esta ordenada
 	if len(a)==0 || len(a)==1{
 		return a
 	}
 	// si a tiene al menos dos elementos se divide en dos secuencias a1 y a2 	
-		a1:=a[:len(a)/2]	
-		a2:=a[len(a)/2:]
-		fmt.Println(a1)	
-		a1 =OrdenaMergesort1(a1)
-		a2 = OrdenaMergesort1(a2)
-	
+	a1:=a[:len(a)/2]	
+	a2:=a[len(a)/2:]
+
+	a1 = ordenaMergesort1(a1)
+	a2 = ordenaMergesort1(a2)
+
 	return mezcla(a1,a2)
 	
 }
@@ -86,13 +77,12 @@ func mezcla(a1 []int, a2 []int) []int{
 	return arrayMezclado
 }
 
-func OrdenaQuicksort1(a []int) []int{
+func OrdenaQuicksort1(a []int){
 	if len(a) > 1 {
 		pos_pivote := recolocar(a)
 		OrdenaQuicksort1(a[:pos_pivote]) // recoloco la lista de los menores
 		OrdenaQuicksort1(a[(pos_pivote+1):]) // recoloco la lista de los mayores
 	}
-	return a
 } 
 
 
@@ -130,23 +120,22 @@ func recolocar(a []int ) int {
 }
     
 
-func OrdenaShellsort1(a []int) []int{
+func OrdenaShellsort1(a []int){
 	salto:= len(a)/2
 	for salto >= 1 {
 		for k := 0; k < salto; k++ {
 			for i:=k+salto; i<len(a);i+=salto {
 				p := a[i]
-				for j:=i-salto; j>=0 && a[j]>p; j-=salto{
-					if a[j] > p { 
-						a[j+salto]=a[j]
-					} else {
-						a[j] = p
-						break
-					}
+				j := i-salto
+				for ; j>=0 && a[j]>p; j-=salto{
+					a[j+salto]=a[j]
 				}
+				a[j+salto] = p
 			}
 		}
 		salto=salto/2
 	}
-	return a
 }
+
+
+
