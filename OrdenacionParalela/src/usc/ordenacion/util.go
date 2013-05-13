@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/mattn/go-sqlite3"
+	"time"
 )
 
 func EstaOrdenado(a []int) bool{
@@ -22,6 +23,8 @@ func EstaOrdenado(a []int) bool{
 
 func CrearArrayAleatorio(n int) []int{
 	a := make([]int, n)
+	t := time.Now().Nanosecond()
+	rand.Seed(int64(t))
 	for i:= 0; i < n; i++ {
 		a[i]=rand.Int()
 	}
@@ -39,7 +42,7 @@ func AbrirBasePruebas() {
 
 func CrearArrayDescendente(n int) []int{
 	var m int = n
-	a := make([]int,n)
+	a := make([]int,n) 
 	for i:= 0; i<n; i++{
 		a[i] = m 
 		m--

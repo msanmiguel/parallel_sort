@@ -1,6 +1,6 @@
 package ordenacion
 
-func OrdenaBurbuja1(a []int){
+func ordenaBurbuja1(a []int){
 	i:=0
 	j:=0
 	n:=len(a)
@@ -16,7 +16,7 @@ func OrdenaBurbuja1(a []int){
 
 }
 
-func OrdenaInsercion1(a []int){
+func ordenaInsercion1(a []int){
 
 	for i:=1; i<len(a);i++{
 		p := a[i]
@@ -27,12 +27,12 @@ func OrdenaInsercion1(a []int){
 		a[j+1] = p
 	}
 }
-func OrdenaMergesort1(a []int){
-	b:= ordenaMergesort1(a)
+func ordenaMergesort1(a []int){
+	b:= ordenaMergesort1_rec(a)
 	copy(a,b)
 }
 
-func ordenaMergesort1(a []int) []int{
+func ordenaMergesort1_rec(a []int) []int{
 	//a2:=make([]int, len(a)-len(a)/2)
 	// si a tiene 0 o 1 elementos esta ordenada
 	if len(a)==0 || len(a)==1{
@@ -42,8 +42,8 @@ func ordenaMergesort1(a []int) []int{
 	a1:=a[:len(a)/2]	
 	a2:=a[len(a)/2:]
 
-	a1 = ordenaMergesort1(a1)
-	a2 = ordenaMergesort1(a2)
+	a1 = ordenaMergesort1_rec(a1)
+	a2 = ordenaMergesort1_rec(a2)
 
 	return mezcla(a1,a2)
 	
@@ -77,11 +77,11 @@ func mezcla(a1 []int, a2 []int) []int{
 	return arrayMezclado
 }
 
-func OrdenaQuicksort1(a []int){
+func ordenaQuicksort1(a []int){
 	if len(a) > 1 {
 		pos_pivote := recolocar(a)
-		OrdenaQuicksort1(a[:pos_pivote]) // recoloco la lista de los menores
-		OrdenaQuicksort1(a[(pos_pivote+1):]) // recoloco la lista de los mayores
+		ordenaQuicksort1(a[:pos_pivote]) // recoloco la lista de los menores
+		ordenaQuicksort1(a[(pos_pivote+1):]) // recoloco la lista de los mayores
 	}
 } 
 
@@ -120,7 +120,7 @@ func recolocar(a []int ) int {
 }
     
 
-func OrdenaShellsort1(a []int){
+func ordenaShellsort1(a []int){
 	salto:= len(a)/2
 	for salto >= 1 {
 		for k := 0; k < salto; k++ {
@@ -137,5 +137,46 @@ func OrdenaShellsort1(a []int){
 	}
 }
 
+type OrdenacionSec interface{
+	Ordenar(a []int)
+	ObtenerNombreAlgoritmo()string
+}
 
+type QuicksortSec1 struct{}
+type ShellsortSec1 struct{}
+type Insercion1 struct{}
+type Burbuja1 struct{}
+type Mergesort1 struct{}
 
+func (o QuicksortSec1) Ordenar(a []int){
+	ordenaQuicksort1(a)
+}
+func (o QuicksortSec1) ObtenerNombreAlgoritmo()string{
+	return "QuicksortSec1"
+}
+
+func (o ShellsortSec1) Ordenar(a []int){
+	ordenaShellsort1(a)
+}
+func (o ShellsortSec1) ObtenerNombreAlgoritmo()string{
+	return "ShellsortSec1"
+}
+func (o Insercion1) Ordenar(a []int){
+	ordenaInsercion1(a)
+}
+func (o Insercion1) ObtenerNombreAlgoritmo()string{
+	return "Insercion1"
+}
+func (o Burbuja1) Ordenar(a []int){
+	ordenaBurbuja1(a)
+}
+func (o Burbuja1) ObtenerNombreAlgoritmo()string{
+	return "Burbuja1"
+}
+
+func (o Mergesort1) Ordenar(a []int){
+	ordenaMergesort1(a)
+}
+func (o Mergesort1) ObtenerNombreAlgoritmo()string{
+	return "Mergesort1"
+}
