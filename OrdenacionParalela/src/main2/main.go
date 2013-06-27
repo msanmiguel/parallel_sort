@@ -12,7 +12,7 @@ func main() {
 	//fmt.Println(a)
 	//ordenacion.ParallellQuicksort(a)
 
-	ordenacion.OrdenaRadixSortParalelo(a, 3)
+	ordenacion.OrdenaRadixSortParalelo(a, 5)
 	//ordenacion.OrdenaPSRS(a)
 	//fmt.Println(a)
 	fmt.Println(ordenacion.EstaOrdenado(a))
