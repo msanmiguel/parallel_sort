@@ -125,7 +125,7 @@ func recolocar(a []int ) int {
 }
 
 func ordenaMergesortSecuencial(a []int, direccion bool){
-	if len(a) == 1{
+	if len(a) <= 1{
 		return;
 	}
 	s := len(a)
@@ -216,6 +216,10 @@ func ordenaShellsort1(a []int){
 }
 
 func OrdenaRadixSort(a []int){
+	if len(a) <= 1 {
+		return
+	}
+
 	var k uint = 4
 	kTotal  := uint(reflect.TypeOf(a[0]).Size())*8
 	var t uint;

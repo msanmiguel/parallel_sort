@@ -9,12 +9,13 @@ import (
 	_ "os"
 	"daos"
 	"reflect"
-	"runtime"
+	//"runtime"
 )
 
 func main() {
-	NCPU := runtime.NumCPU()
-	runtime.GOMAXPROCS(NCPU)
+	//NCPU := runtime.NumCPU()
+	//runtime.GOMAXPROCS(NCPU)
+	NCPU := 2
 
 	//a:=[]int{2,54,7,98,56,51,0,23}
 	//a := ordenacion.CrearArrayDescendente(100000)
@@ -23,9 +24,22 @@ func main() {
 	
 	//algoritmos de ordenación secuencial
 
+	
+
 	var os []ordenacion.OrdenacionSec = []ordenacion.OrdenacionSec{ordenacion.QuicksortSec1 {}, ordenacion.Mergesort1{}, ordenacion.ShellsortSec1{}, ordenacion.RadixSort1{}}
-	//algoritmos de ordenación secuencial
-	var op []ordenacion.OrdenacionParal = []ordenacion.OrdenacionParal{ordenacion.QuicksortParal1 {}, ordenacion.ParallellQuicksort1 {}, ordenacion.MergesortParallel{}, ordenacion.ShellsortParal1{}, ordenacion.RadixSortParalelo{}}
+	//algoritmos de ordenación paralela
+	quicksortParal:=  ordenacion.QuicksortParal1 { NCPU }
+	shellsortParal:= ordenacion.ShellsortParal1 { NCPU }
+	radixsortParal:= ordenacion.RadixSortParalelo { NCPU }
+	bitonicMergesortParal:= ordenacion.BitonicMergesortParallell { NCPU }
+	psbrs:= ordenacion.ParallellSRegularSampling { NCPU }
+	histogramSort:= ordenacion.HistogramSort { NCPU }
+	
+	//var op []ordenacion.OrdenacionParal = []ordenacion.OrdenacionParal{ordenacion.QuicksortParal1 {}, ordenacion.ParallellQuicksort1 {}, ordenacion.BitonicMergesortParallell{}, 
+	//ordenacion.ShellsortParal1{}, ordenacion.RadixSortParalelo{}, ordenacion.ParallellSRegularSampling{}}
+
+	var op []ordenacion.OrdenacionParal = []ordenacion.OrdenacionParal { quicksortParal, shellsortParal, radixsortParal, bitonicMergesortParal, psbrs, histogramSort }
+
 	var tamañosEntrada []int = []int{ 1000, 10000, 100000}
 	var nPruebas int = 5
 	var test daos.Test
