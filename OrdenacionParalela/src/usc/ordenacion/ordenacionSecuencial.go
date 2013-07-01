@@ -3,6 +3,7 @@ package ordenacion
 import(
 	_ "fmt"
 	"reflect"
+	"sort"
 )
 
 func ordenaBurbuja1(a []int){
@@ -83,10 +84,12 @@ func ordenaInsercion1(a []int){
 //}
 
 func ordenaQuicksort1(a []int){
-	if len(a) > 1 {
+	if len(a) > 20 {
 		pos_pivote := recolocar(a)
 		ordenaQuicksort1(a[:pos_pivote]) // recoloco la lista de los menores
 		ordenaQuicksort1(a[(pos_pivote+1):]) // recoloco la lista de los mayores
+	}else if len(a)>1 {
+		ordenaInsercion1(a)
 	}
 } 
 
@@ -96,7 +99,19 @@ func recolocar(a []int ) int {
 	var izquierdo int
 	var derecho int
 	var pivote int 
+	n:= len(a)
+	if a[0] >a [(n-1)/2]{
+		a[0], a[(n-1)/2] =  a[(n-1)/2], a[0]
+	}
+	if(a[(n-1)/2] > a[n-1]){
+		 a[(n-1)/2], a[n-1] = a[n-1], a[(n-1)/2]
+
+	}
+	if a[0] <= a [(n-1)/2]{
+		a[0], a[(n-1)/2] = a[(n-1)/2], a[0]
+	}
 	pivote= a[0]
+
 	izquierdo = 0
 	derecho = len(a)-1
 
@@ -110,16 +125,11 @@ func recolocar(a []int ) int {
 		} 
 		// si todavia no se cruzan los indices intercambiamos 
 		if izquierdo < derecho {
-			aux:= a[izquierdo]
-			a[izquierdo]= a[derecho]
-			a[derecho]= aux
+			a[izquierdo],  a[derecho] =  a[derecho], a[izquierdo]
 		}
 	}
 	// cuando se cruzaron los indices se coloca el pivote en el lugar que le corresponde
-	aux:= a[derecho]
-	a[derecho]= a[0]
-	a[0]= aux
-	
+	a[derecho], a[0] = a[0],a[derecho]
 	// se devuelve el la lista recolocada y la nueva posición del pivote
 	return derecho
 }
@@ -256,6 +266,21 @@ func OrdenaRadixSort(a []int){
 	}
 }
 
+type  OrdenarSlice struct {
+	a []int
+}
+
+func (s OrdenarSlice) Len() int{
+	return len(s.a)
+}
+func (s OrdenarSlice) Swap(i,j int){
+	s.a[i], s.a[j] = s.a[j], s.a[i]
+}
+func (s OrdenarSlice) Less(i, j int) bool{
+	 return s.a[i]<s.a[j]		
+}
+
+
 type OrdenacionSec interface{
 	Ordenar(a []int)
 }
@@ -267,6 +292,12 @@ type Burbuja1 struct{}
 type Mergesort1 struct{}
 type RankSort1 struct{}
 type RadixSort1 struct{}
+
+type GolangSort struct{}
+
+func (o GolangSort) Ordenar(a []int){
+	sort.Sort(OrdenarSlice{a})
+}
 
 func (o QuicksortSec1) Ordenar(a []int){
 	ordenaQuicksort1(a)

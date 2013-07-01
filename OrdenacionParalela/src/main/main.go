@@ -26,8 +26,9 @@ func main() {
 
 	
 
-	var os []ordenacion.OrdenacionSec = []ordenacion.OrdenacionSec{ordenacion.QuicksortSec1 {}, ordenacion.Mergesort1{}, ordenacion.ShellsortSec1{}, ordenacion.RadixSort1{}}
+	var os []ordenacion.OrdenacionSec = []ordenacion.OrdenacionSec{ordenacion.GolangSort{}, ordenacion.QuicksortSec1 {}, ordenacion.Mergesort1{}, ordenacion.ShellsortSec1{}, ordenacion.RadixSort1{}}
 	//algoritmos de ordenación paralela
+
 	quicksortParal:=  ordenacion.QuicksortParal1 { NCPU }
 	shellsortParal:= ordenacion.ShellsortParal1 { NCPU }
 	radixsortParal:= ordenacion.RadixSortParalelo { NCPU }
