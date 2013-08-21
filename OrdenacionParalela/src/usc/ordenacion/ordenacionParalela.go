@@ -9,23 +9,23 @@ import(
 
 //Primeira implementación de Quicksort paralelo 
 // Nesta implementación lánzase nunha gourutina cada chamada recursiva do algoritmo.
-func ordenaQuicksortParalelo(a []int) {
-	c := make(chan int)
-	go ordenaQuicksortParalelo_rec(a, c)
-	<-c
-} 
+//func ordenaQuicksortParalelo(a []int) {
+//	c := make(chan int)
+//	go ordenaQuicksortParalelo_rec(a, c)
+//	<-c
+//} 
 
-func ordenaQuicksortParalelo_rec(a []int, c chan int){
-	if len(a) > 1 {
-		c2 := make(chan int)
-		pos_pivote := recolocar(a) 
-		go ordenaQuicksortParalelo_rec(a[:pos_pivote], c2) // recoloco la lista de los menores
-		go ordenaQuicksortParalelo_rec(a[(pos_pivote+1):], c2) // recoloco la lista de los mayores
-		<- c2
-		<- c2
-	}
-	c <- 0
-} 
+//func ordenaQuicksortParalelo_rec(a []int, c chan int){
+//	if len(a) > 1 {
+//		c2 := make(chan int)
+//		pos_pivote := recolocar(a) 
+//		go ordenaQuicksortParalelo_rec(a[:pos_pivote], c2) // recoloco la lista de los menores
+//		go ordenaQuicksortParalelo_rec(a[(pos_pivote+1):], c2) // recoloco la lista de los mayores
+//		<- c2
+//		<- c2
+//	}
+//	c <- 0
+//} 
 // Segunda implementación de Quicksort paralelo
 /**
 * Nesta implementación lánzase unha gorutina para cada chamada recursiva sempre que o número de gorrutinas
@@ -61,10 +61,6 @@ func ordenaQuicksortParalelo_rec1(a []int, c chan int, nGorutinas, NCPU int){
 
 //Algoritmo parallellQuicksort
 
-/**
-* 
-*
-*/
 
 func ParallellQuicksort(a []int, NCPU int ) {
 	M := len(a)

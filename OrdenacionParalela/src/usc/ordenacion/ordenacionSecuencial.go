@@ -1,11 +1,12 @@
 package ordenacion
 
 import(
-	_ "fmt"
-	"reflect"
 	"sort"
+	"reflect"
 )
 
+
+// Burbuja secuencial
 func ordenaBurbuja1(a []int){
 	i:=0
 	j:=0
@@ -22,6 +23,7 @@ func ordenaBurbuja1(a []int){
 
 }
 
+// InsertionSort secuencial
 func ordenaInsercion1(a []int){
 
 	for i:=1; i<len(a);i++{
@@ -33,6 +35,8 @@ func ordenaInsercion1(a []int){
 		a[j+1] = p
 	}
 }
+
+
 //func ordenaMergesort1(a []int){
 //	b:= ordenaMergesort1_rec(a)
 //	copy(a,b)
@@ -83,6 +87,9 @@ func ordenaInsercion1(a []int){
 //	return arrayMezclado
 //}
 
+
+
+// Quicksort secuencial
 func ordenaQuicksort1(a []int){
 	if len(a) > 20 {
 		pos_pivote := recolocar(a)
@@ -92,6 +99,9 @@ func ordenaQuicksort1(a []int){
 		ordenaInsercion1(a)
 	}
 } 
+
+
+
 
 
 // la funcion recolocar devuelve la lista recolocada y la posición en la que está el pivote
@@ -122,7 +132,7 @@ func recolocar(a []int ) int {
 		}
 		for izquierdo < len(a) && a[izquierdo] <= pivote {
 			izquierdo++
-		} 
+		}
 		// si todavia no se cruzan los indices intercambiamos 
 		if izquierdo < derecho {
 			a[izquierdo],  a[derecho] =  a[derecho], a[izquierdo]
@@ -134,6 +144,9 @@ func recolocar(a []int ) int {
 	return derecho
 }
 
+
+
+// MergeSort secuencial
 func ordenaMergesortSecuencial(a []int, direccion bool){
 	if len(a) <= 1{
 		return;
@@ -192,7 +205,10 @@ func compSwitch(a []int, i, j int, direccion bool){
 		a[j] = c
 	}
 }
-    
+
+
+
+//RankSort    
 func ordenaRankSort(a []int){
 	b:= make([]int, len(a))
 	for i:=0; i<len(a); i++{
@@ -206,8 +222,8 @@ func ordenaRankSort(a []int){
 	}
 	copy(a,b)
 }
-    
-
+   
+// Shellsort secuencial
 func ordenaShellsort1(a []int){
 	salto:= len(a)/2
 	for salto >= 1 {
@@ -225,6 +241,8 @@ func ordenaShellsort1(a []int){
 	}
 }
 
+
+// Radix sort secuencial
 func OrdenaRadixSort(a []int){
 	if len(a) <= 1 {
 		return
@@ -279,6 +297,7 @@ func (s OrdenarSlice) Swap(i,j int){
 func (s OrdenarSlice) Less(i, j int) bool{
 	 return s.a[i]<s.a[j]		
 }
+
 
 
 type OrdenacionSec interface{

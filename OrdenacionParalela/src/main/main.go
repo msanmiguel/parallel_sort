@@ -12,6 +12,15 @@ import (
 	//"runtime"
 )
 
+
+type ComparadorEnteros struct {}
+
+func (i ComparadorEnteros) Compare(i1, i2 interface{}) int {
+	v1 := i1.(int)
+	v2 := i2.(int)
+	return v2-v1
+}
+
 func main() {
 	//NCPU := runtime.NumCPU()
 	//runtime.GOMAXPROCS(NCPU)
@@ -23,9 +32,6 @@ func main() {
 	//a := ordenacion.CrearArrayAscendente(100000)
 	
 	//algoritmos de ordenación secuencial
-
-	
-
 	var os []ordenacion.OrdenacionSec = []ordenacion.OrdenacionSec{ordenacion.GolangSort{}, ordenacion.QuicksortSec1 {}, ordenacion.Mergesort1{}, ordenacion.ShellsortSec1{}, ordenacion.RadixSort1{}}
 	//algoritmos de ordenación paralela
 

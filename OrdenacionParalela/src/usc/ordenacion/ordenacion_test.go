@@ -6,19 +6,17 @@ import (
 	"reflect"
 )
 
-//var os []OrdenacionSec = []OrdenacionSec{QuicksortSec1 {}, Mergesort1{}, ShellsortSec1{}, RadixSort1{}}
-	//algoritmos de ordenación secuencial
-//var op []OrdenacionParal = []OrdenacionParal{QuicksortParal1 {}, ParallellQuicksort1 {}, MergesortParallel{}, ShellsortParal1{}, RadixSortParalelo{}, ParallellSRegularSampling{}}
-
-
 var os []OrdenacionSec = []OrdenacionSec{QuicksortSec1 {},Mergesort1{}, ShellsortSec1{}, RadixSort1{}}
-	//algoritmos de ordenación secuencial
+	
 var op []OrdenacionParal = []OrdenacionParal{QuicksortParal1 {}, BitonicMergesortParallell{}, ShellsortParal1{}, RadixSortParalelo{}, ParallellSRegularSampling{}}
+
+var ss []SecuentialSort = []SecuentialSort{BubbleSortSec{}, InsertionSortSec{}, MergeSortSec{}, QuickSortSec{}, ShellSortSec{}}
+
+var ps []ParallelSort = []ParallelSort{QuickSortParallelized{}, ShellSortParallelized{}, BitonicMergesortParallelized{}, ParallellSortRegularSampling{}}
 
 func TestOrdenacion(t *testing.T){
 	var a []int
 	var ordenado bool
-	//fmt.Println(a)
 	for _,o := range os {
 
 		t.Log("Probando", reflect.TypeOf(o).Name())
@@ -127,6 +125,108 @@ func TestNumCPUS(t *testing.T) {
 				t.Errorf("El array no esta ordenado con algoritmo %s y numero CPUS %d", reflect.TypeOf(o).Name(), i) 
 			}
 		}
+	}
+}
+
+
+type ComparadorEnteros struct {}
+
+func (i ComparadorEnteros) Compare(i1, i2 interface{}) int {
+	v1 := i1.(int)
+	v2 := i2.(int)
+	return v1-v2
+}
+
+func TestGenericSort(t *testing.T){
+	var a []int
+	var sorted bool
+	for _,s := range ss {
+		t.Log("Probando", reflect.TypeOf(s).Name())
+		a = [] int{}
+		s.Sort(a, ComparadorEnteros{})
+		sorted = EstaOrdenado(a)
+		if !sorted {
+			t.Error("The empty array isn't ordered.")
+		}
+		a = [] int{1}
+		s.Sort(a, ComparadorEnteros{})
+		sorted = EstaOrdenado(a)
+		if !sorted {
+			t.Error("The size 1 array isn't ordered.")
+		}
+		a = CrearArrayAleatorio(101)
+		s.Sort(a, ComparadorEnteros{})
+		sorted = EstaOrdenado(a)
+		if !sorted {
+			t.Error("The prime number sized array isn't ordered.")
+		}
+
+		a = CrearArrayAleatorio(128)
+		s.Sort(a, ComparadorEnteros{} )
+		sorted = EstaOrdenado(a)
+		if !sorted {
+			t.Error("The power of two sized array isn't ordered.")
+		}
+
+		a = CrearArrayAleatorio(1000)
+		s.Sort(a, ComparadorEnteros{})
+		sorted = EstaOrdenado(a)
+		//fmt.Println(a)
+		if !sorted{
+			t.Error("The even sized array isn't ordered.") 
+		}
+		a = CrearArrayAleatorio(1001)
+		s.Sort(a, ComparadorEnteros{})
+		sorted = EstaOrdenado(a)
+		//fmt.Println(a)
+		if !sorted{
+			t.Error("The odd sized array isn't ordered.") 
+		}
+	}
+
+	for _,o := range ps {
+		a = [] int{}
+		o.Sort(a, ComparadorEnteros{})
+		sorted = EstaOrdenado(a)
+		t.Log("Probando", reflect.TypeOf(o).Name())
+		if !sorted {
+			t.Error("El array no está ordenado con tamaño 0")
+		}
+		a = [] int{1}
+		o.Sort(a, ComparadorEnteros{})
+		sorted = EstaOrdenado(a)
+		if !sorted {
+			t.Error("El array no está ordenado con tamaño 1")
+		}
+		a = CrearArrayAleatorio(101)
+		o.Sort(a, ComparadorEnteros{})
+		sorted = EstaOrdenado(a)
+		if !sorted {
+			t.Error("El array no está ordenado con tamaño primo")
+		}
+
+		a = CrearArrayAleatorio(128)
+		o.Sort(a, ComparadorEnteros{})
+		sorted = EstaOrdenado(a)
+		if !sorted {
+			t.Error("El array no está ordenado con tamaño potencia de 2")
+		}
+
+		a = CrearArrayAleatorio(1000)
+		o.Sort(a, ComparadorEnteros{})
+		sorted = EstaOrdenado(a)
+		//fmt.Println(a)
+		if !sorted{
+			t.Error("El array no esta ordenado con tamaño par") 
+		}
+		a = CrearArrayAleatorio(1001)
+		o.Sort(a, ComparadorEnteros{})
+		sorted = EstaOrdenado(a)
+		//fmt.Println(a)
+		if !sorted{
+			t.Error("El array no esta ordenado con tamaño impar") 
+		}
+
 	}
 }
 
