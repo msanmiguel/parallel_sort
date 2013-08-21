@@ -187,18 +187,18 @@ func parallelSRS(in interface{}, comp Comparator, NCPU int){
 	c:= reflect.MakeChan(tChan,0)
 	c2:= reflect.MakeChan(tChanSlice,0)
 	fin:= make(chan int)
-	canalesDatos := make([]reflect.Value, NCPU) // slice de canales de slices genericos
+	dataChanels := make([]reflect.Value, NCPU) // slice de canales de slices genericos
 	for i:=0; i < NCPU; i++{
-		canalesDatos[i] = reflect.MakeChan(tChanSlice,NCPU)
+		dataChanels[i] = reflect.MakeChan(tChanSlice,NCPU)
 	}
 	var b interface {}
 	for i:=0; i< NCPU-1; i++{
 		b = v.Slice(i*(n/NCPU), i*(n/NCPU)+(n/NCPU)).Interface()
 		//una go-rutina por procesador, a la que le pasamos la sublista que le corresponde
-		go genericPsRegularSampling(b, comp, fin, c, c2, canalesDatos, i, NCPU, n)
+		go genericPsRegularSampling(b, comp, fin, c, c2, dataChanels, i, NCPU, n)
 	}
 	b = v.Slice((NCPU-1)*(n/NCPU), v.Len()).Interface()
-	go genericPsRegularSampling(b, comp, fin, c, c2, canalesDatos, (NCPU-1), NCPU, n)
+	go genericPsRegularSampling(b, comp, fin, c, c2, dataChanels, (NCPU-1), NCPU, n)
 
 	rsampleList:= reflect.MakeSlice(t, NCPU*NCPU, NCPU*NCPU)
 	for i := 0; i < (NCPU*NCPU); i++{
@@ -229,16 +229,16 @@ func parallelSRS(in interface{}, comp Comparator, NCPU int){
 	}
 	v = v.Slice(0,0)
 	for i:= 0; i<NCPU; i++{
-		d,_ := canalesDatos[i].Recv()
+		d,_ := dataChanels[i].Recv()
 	 	v = reflect.AppendSlice(v,d)
 	}
 }
 
-func genericPsRegularSampling(b interface {}, comp Comparator, fin chan int, c, c2 reflect.Value, canalesDatos []reflect.Value, nGorutina int, NCPU int, n int){
+func genericPsRegularSampling(b interface {}, comp Comparator, fin chan int, c, c2 reflect.Value, dataChanels []reflect.Value, nGorutina int, NCPU int, n int){
 	var j int
 	v := reflect.ValueOf(b)
 	t := reflect.TypeOf(b)
-	datosLocales:= reflect.MakeSlice(t, 0, v.Len()*2)
+	localData:= reflect.MakeSlice(t, 0, v.Len()*2)
 	quickSortSecuential(b, comp)
 	for i := 0; i < NCPU; i++{
 		j = i*n/(NCPU*NCPU)
@@ -251,17 +251,17 @@ func genericPsRegularSampling(b interface {}, comp Comparator, fin chan int, c, 
 	i:=0
 	for j := 0; j < pivotes.Len(); j++ {
 		pivote = genericBuscarPivote(v.Slice(i, v.Len()).Interface(), pivotes.Index(j).Interface(), comp)
-		canalesDatos[j].Send(v.Slice(i, (i+pivote)))
+		dataChanels[j].Send(v.Slice(i, (i+pivote)))
 		i = i+pivote
 	}
-	canalesDatos[NCPU-1].Send(v.Slice(i, v.Len()))
+	dataChanels[NCPU-1].Send(v.Slice(i, v.Len()))
 	for i:=0; i<NCPU; i++{
-		aux, _ := canalesDatos[nGorutina].Recv()
-		datosLocales = reflect.AppendSlice(datosLocales, aux)
+		aux, _ := dataChanels[nGorutina].Recv()
+		localData = reflect.AppendSlice(localData, aux)
 	}
 	fin<-0
-	quickSortSecuential(datosLocales.Interface(), comp)
-	canalesDatos[nGorutina].Send(datosLocales)
+	quickSortSecuential(localData.Interface(), comp)
+	dataChanels[nGorutina].Send(localData)
 }
 
 

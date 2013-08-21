@@ -18,7 +18,7 @@ type ComparadorEnteros struct {}
 func (i ComparadorEnteros) Compare(i1, i2 interface{}) int {
 	v1 := i1.(int)
 	v2 := i2.(int)
-	return v2-v1
+	return v1-v2
 }
 
 func main() {
@@ -41,13 +41,20 @@ func main() {
 	bitonicMergesortParal:= ordenacion.BitonicMergesortParallell { NCPU }
 	psbrs:= ordenacion.ParallellSRegularSampling { NCPU }
 	histogramSort:= ordenacion.HistogramSort { NCPU }
-	
-	//var op []ordenacion.OrdenacionParal = []ordenacion.OrdenacionParal{ordenacion.QuicksortParal1 {}, ordenacion.ParallellQuicksort1 {}, ordenacion.BitonicMergesortParallell{}, 
-	//ordenacion.ShellsortParal1{}, ordenacion.RadixSortParalelo{}, ordenacion.ParallellSRegularSampling{}}
+ 	var op []ordenacion.OrdenacionParal = []ordenacion.OrdenacionParal { quicksortParal, shellsortParal, radixsortParal, bitonicMergesortParal, psbrs, histogramSort }
 
-	var op []ordenacion.OrdenacionParal = []ordenacion.OrdenacionParal { quicksortParal, shellsortParal, radixsortParal, bitonicMergesortParal, psbrs, histogramSort }
+	// Ordenacion Paralela Genérica
+	quicksortParallelizedGeneric := ordenacion.QuickSortParallelized { NCPU }
+ 	shellSortParallelizedGeneric := ordenacion.ShellSortParallelized { NCPU }
+ 	bitonicMergesortParallelizedGeneric := ordenacion.BitonicMergesortParallelized { NCPU }
+ 	pSRSGeneric := ordenacion.ParallellSortRegularSampling { NCPU }
 
-	var tamañosEntrada []int = []int{ 1000, 10000, 100000}
+ 	var ps []ordenacion.ParallelSort = []ordenacion.ParallelSort{quicksortParallelizedGeneric, shellSortParallelizedGeneric, bitonicMergesortParallelizedGeneric, pSRSGeneric}
+	// Ordenacion secuencial Genérica
+
+	var ss []ordenacion.SecuentialSort = []ordenacion.SecuentialSort{ ordenacion.MergeSortSec{}, ordenacion.QuickSortSec{}, ordenacion.ShellSortSec{}}
+
+	var tamañosEntrada []int = []int{ 1000 , 10000, 100000}
 	var nPruebas int = 5
 	var test daos.Test
 	test.IdTest = 0
@@ -95,6 +102,40 @@ func main() {
 			}
 			resultado.Tiempo = sumaT/(j+1)
 			resultados = append(resultados, resultado)
+		}
+		for _, v:= range ss{
+			resultado.Algoritmo = reflect.TypeOf(v).Name()
+			var sumaT int = 0
+			var j int = 0
+			for j = 0 ;j < nPruebas; j++{ //Se hacen n ejecuciones para calcular el promedio
+				copy(b, a)
+				t1 := time.Now()
+				v.Sort(b, ComparadorEnteros{})
+				t2 := time.Now()
+				duracion := t2.Sub(t1)
+				tiempo := int(duracion.Nanoseconds())
+				sumaT =  sumaT + tiempo 
+			}
+			resultado.Tiempo = sumaT/(j+1)
+			resultados = append(resultados, resultado)
+			fmt.Println("Esta ordenado? ",ordenacion.EstaOrdenado(b))
+		}
+		for _, v:= range ps{
+			resultado.Algoritmo = reflect.TypeOf(v).Name()
+			var sumaT int = 0
+			var j int = 0
+			for j = 0 ;j < nPruebas; j++{ //Se hacen n ejecuciones para calcular el promedio
+				copy(b, a)
+				t1 := time.Now()
+				v.Sort(b, ComparadorEnteros{})
+				t2 := time.Now()
+				duracion := t2.Sub(t1)
+				tiempo := int(duracion.Nanoseconds())
+				sumaT =  sumaT + tiempo 
+			}
+			resultado.Tiempo = sumaT/(j+1)
+			resultados = append(resultados, resultado)
+			fmt.Println("Esta ordenado? ",ordenacion.EstaOrdenado(b))
 		} 	
 	}
 	daos.GuardarResultadosTest(&test, resultados) 
