@@ -26,9 +26,9 @@ func VolcarDatos(nombre string, test *daos.Test, resultados []*daos.ResultadoTes
 			} else {
 				fichero.WriteString(",")
 			}
-			cadena := fmt.Sprintf("%d", v.Tiempo)
-			fichero.WriteString(cadena)
 		}
+		cadena := fmt.Sprintf("%d", v.Tiempo)
+		fichero.WriteString(cadena)
 	}
 	fichero.Close()
 }
