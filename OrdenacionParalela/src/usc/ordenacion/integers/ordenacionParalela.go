@@ -473,7 +473,7 @@ func histogramSort(a []int, NCPU int){
 				histogram[j] += data[j]
 			}
 		}
-		fmt.Println(histogram)
+		//fmt.Println(histogram)
 		satisfied := countSatisfiedPivots(histogram, n, NCPU)
 		u := NCPU-1-satisfied
 		if u == 0 {
@@ -556,7 +556,7 @@ func histogramSort(a []int, NCPU int){
 			last_pivot = j
 		}
 	}
-	fmt.Println("P finales", pivots)
+	//fmt.Println("P finales", pivots)
 
 	// se hace broadcast de la lista con los pivotes 
 	for i:= 0; i<NCPU; i++{
