@@ -26,7 +26,7 @@ func main() {
  																	integers.HistogramSort{NCPU}}
 
 
-	var tamañosEntrada []int = []int{ 20000, 40000, 80000 }
+	var tamañosEntrada []int = []int{ 10000, 20000, 40000, 80000 }
 	var nPruebas int = 100
 	var test daos.Test
 	NCPU = 1
@@ -45,6 +45,7 @@ func main() {
 		for _, w:= range PSIntegers{
 			result.Algoritmo = reflect.TypeOf(w).Name() +" (integers)"
 			fmt.Println(reflect.TypeOf(w).Name())
+			w.SetNumCPUs(NCPU)
 			var sumT int = 0
 			var j int = 0
 			for j = 0 ;j < nPruebas; j++{ //Se hacen n ejecuciones para calcular el promedio
@@ -71,6 +72,7 @@ func main() {
 		for _, w:= range PSIntegers{
 			result.Algoritmo = reflect.TypeOf(w).Name() +" (integers)"
 			fmt.Println(reflect.TypeOf(w).Name())
+			w.SetNumCPUs(NCPU)
 			var sumT int = 0
 			var j int = 0
 			for j = 0 ;j < nPruebas; j++{ //Se hacen n ejecuciones para calcular el promedio
@@ -98,6 +100,7 @@ func main() {
 		for _, w:= range PSIntegers{
 			result.Algoritmo = reflect.TypeOf(w).Name() +" (integers)"
 			fmt.Println(reflect.TypeOf(w).Name())
+			w.SetNumCPUs(NCPU)
 			var sumT int = 0
 			var j int = 0
 			for j = 0 ;j < nPruebas; j++{ //Se hacen n ejecuciones para calcular el promedio

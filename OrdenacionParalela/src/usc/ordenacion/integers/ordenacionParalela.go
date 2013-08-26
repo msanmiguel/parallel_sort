@@ -3,7 +3,7 @@ package integers
 import(
 	"runtime"
 	"reflect"
-	"fmt"
+	_"fmt"
 	"math"
 )
 
@@ -722,6 +722,7 @@ func searchPivot(a []int, p int) int{
 
 type ParallelSort interface{
 	Sort(a  []int)
+	SetNumCPUs(n int)
 }
 
 type QuickSortParallelized struct{
@@ -757,6 +758,10 @@ func (o BitonicMergeSortParallelized) Sort(a []int){
 	parallelizedBitonicMergeSort(a, numCPU)
 }
 
+func (o BitonicMergeSortParallelized) SetNumCPUs(n int) {
+	o.NCPU = n
+}
+
 
 func (o QuickSortParallelized) Sort(a []int){ 
 	var numCPU int
@@ -767,6 +772,10 @@ func (o QuickSortParallelized) Sort(a []int){
 	}
 	runtime.GOMAXPROCS(numCPU)
 	parallelizedQuickSort(a, numCPU)
+}
+
+func (o QuickSortParallelized) SetNumCPUs(n int) {
+	o.NCPU = n
 }
 
 
@@ -781,6 +790,10 @@ func (o ShellSortParallelized) Sort(a []int){
 	parallelizedShellSort(a, numCPU)
 }
 
+func (o ShellSortParallelized) SetNumCPUs(n int) {
+	o.NCPU = n
+}
+
 func (o ParallelQuickSort) Sort(a []int){
 	var numCPU int
 	if o.NCPU <=0 {
@@ -790,6 +803,10 @@ func (o ParallelQuickSort) Sort(a []int){
 	}
 	runtime.GOMAXPROCS(numCPU)
 	parallelQuickSort(a, numCPU)
+}
+
+func (o ParallelQuickSort) SetNumCPUs(n int) {
+	o.NCPU = n
 }
 
 func (o RadixSortParallelized) Sort(a []int){
@@ -803,6 +820,10 @@ func (o RadixSortParallelized) Sort(a []int){
 	parallelizedRadixSort(a, numCPU)
 }
 
+func (o RadixSortParallelized) SetNumCPUs(n int) {
+	o.NCPU = n
+}
+
 func (o ParallellSortRegularSampling) Sort(a []int){
 	var numCPU int
 	if o.NCPU <=0 {
@@ -814,6 +835,9 @@ func (o ParallellSortRegularSampling) Sort(a []int){
 	parallelSRS(a, numCPU)
 }
 
+func (o ParallellSortRegularSampling) SetNumCPUs(n int) {
+	o.NCPU = n
+}
 
 func (o HistogramSort) Sort(a []int) {
 	var numCPU int
@@ -824,4 +848,8 @@ func (o HistogramSort) Sort(a []int) {
 	}
 	runtime.GOMAXPROCS(numCPU)
 	histogramSort(a, numCPU)
+}
+
+func (o HistogramSort) SetNumCPUs(n int) {
+	o.NCPU = n
 }

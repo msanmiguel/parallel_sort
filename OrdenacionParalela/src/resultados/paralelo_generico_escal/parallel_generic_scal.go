@@ -40,7 +40,7 @@ func main() {
  																	generic.ShellSortParallelized { NCPU } }
 
 
-	var tamañosEntrada []int = []int{1000, 2000, 4000, 8000}
+	var tamañosEntrada []int = []int{10000, 20000, 40000, 80000}
 	var nPruebas int = 100
 	var test daos.Test
 	NCPU = 1
@@ -57,6 +57,7 @@ func main() {
 		results= results[:0]
 		for _, w:= range PSgeneric{
 			result.Algoritmo = reflect.TypeOf(w).Name() +" (integers)" 
+			w.SetNumCPUs(NCPU)
 			var sumT int = 0
 			var j int = 0
 			is := IntSlice { }
@@ -82,6 +83,7 @@ func main() {
 		b := make([]int, len(a))
 		for _, w:= range PSgeneric{
 			result.Algoritmo = reflect.TypeOf(w).Name() +" (integers)"
+			w.SetNumCPUs(NCPU)
 			var sumT int = 0
 			var j int = 0
 			is := IntSlice { b }
@@ -108,6 +110,7 @@ func main() {
 		b = make([]int, len(a))
 		for _, w:= range PSgeneric{
 			result.Algoritmo = reflect.TypeOf(w).Name() +" (integers)"
+			w.SetNumCPUs(NCPU)
 			var sumT int = 0
 			var j int = 0
 			is := IntSlice { b }

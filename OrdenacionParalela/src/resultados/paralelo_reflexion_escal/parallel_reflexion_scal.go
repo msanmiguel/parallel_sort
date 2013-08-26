@@ -31,7 +31,7 @@ func main() {
 																		reflection.BitonicMergeSortParallelized {NCPU}, 
 																		reflection.ParallellSortRegularSampling {NCPU}}
 	
-	var tamañosEntrada []int = []int{1000, 2000, 4000, 8000}
+	var tamañosEntrada []int = []int{10000, 20000, 40000, 80000}
 	var nPruebas int = 100
 	var test daos.Test
 	NCPU = 1
@@ -48,7 +48,8 @@ func main() {
 		results= results[:0]
 		b := make([]int, len(a))
 		for _, w:= range PSReflect{
-			result.Algoritmo = reflect.TypeOf(w).Name() +" (integers)" 
+			result.Algoritmo = reflect.TypeOf(w).Name() +" (integers)"
+			w.SetNumCPUs(NCPU)
 			var sumT int = 0
 			var j int = 0
 			for j = 0 ;j < nPruebas; j++{ //Se hacen n ejecuciones para calcular el promedio
@@ -73,6 +74,7 @@ func main() {
 		b = make([]int, len(a))
 		for _, w:= range PSReflect{
 			result.Algoritmo = reflect.TypeOf(w).Name() +" (integers)"
+			w.SetNumCPUs(NCPU)
 			var sumT int = 0
 			var j int = 0
 			for j = 0 ;j < nPruebas; j++{ //Se hacen n ejecuciones para calcular el promedio
@@ -98,6 +100,7 @@ func main() {
 		b = make([]int, len(a))
 		for _, w:= range PSReflect{
 			result.Algoritmo = reflect.TypeOf(w).Name() +" (integers)"
+			w.SetNumCPUs(NCPU)
 			var sumT int = 0
 			var j int = 0
 			for j = 0 ;j < nPruebas; j++{ //Se hacen n ejecuciones para calcular el promedio

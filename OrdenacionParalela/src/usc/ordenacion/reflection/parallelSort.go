@@ -285,6 +285,7 @@ func searchPivot(a interface {}, p interface {}, comp Comparator) int{
 
 type ParallelSort interface{
 	Sort(a interface{}, comp Comparator)
+	SetNumCPUs(n int)
 }
 
 type QuickSortParallelized struct{
@@ -314,6 +315,10 @@ func (o QuickSortParallelized) Sort(in interface{}, comp Comparator){
 	parallelizedQuickSort(in, comp, numCPU)
 }
 
+func (o QuickSortParallelized) SetNumCPUs(n int) {
+	o.NCPU = n
+}
+
 func (o ShellSortParallelized) Sort(in interface{}, comp Comparator){ 
 	var numCPU int
 	if o.NCPU <=0 {
@@ -323,6 +328,10 @@ func (o ShellSortParallelized) Sort(in interface{}, comp Comparator){
 	}
 	runtime.GOMAXPROCS(numCPU)
 	parallelizedShellSort(in, comp, numCPU)
+}
+
+func (o ShellSortParallelized) SetNumCPUs(n int) {
+	o.NCPU = n
 }
 
 func (o BitonicMergeSortParallelized) Sort(in interface{}, comp Comparator){ 
@@ -336,6 +345,10 @@ func (o BitonicMergeSortParallelized) Sort(in interface{}, comp Comparator){
 	parallelizedBitonicMergeSort(in, comp, numCPU)
 }
 
+func (o BitonicMergeSortParallelized) SetNumCPUs(n int) {
+	o.NCPU = n
+}
+
 func (o ParallellSortRegularSampling) Sort(in interface{}, comp Comparator){ 
 	var numCPU int
 	if o.NCPU <=0 {
@@ -345,4 +358,8 @@ func (o ParallellSortRegularSampling) Sort(in interface{}, comp Comparator){
 	}
 	runtime.GOMAXPROCS(numCPU)
 	parallelSRS(in, comp, numCPU)
+}
+
+func (o ParallellSortRegularSampling) SetNumCPUs(n int) {
+	o.NCPU = n
 }

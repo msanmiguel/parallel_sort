@@ -157,6 +157,7 @@ func halfCleanTrozo(s SortInterface, inf, sup, m int, direction bool, j int, NCP
 
 type ParallelSort interface {
 	Sort(s SortInterface)
+	SetNumCPUs(n int)
 }
 
 type BitonicMergeSortParallelized struct {
@@ -180,6 +181,10 @@ func (o BitonicMergeSortParallelized) Sort(s SortInterface){
 	parallelizedBitonicMergeSort(s, numCPU)
 }
 
+func (o BitonicMergeSortParallelized) SetNumCPUs(n int) {
+	o.NCPU = n
+}
+
 func (o QuickSortParallelized) Sort(s SortInterface){
 	var numCPU int
 	if o.NCPU <=0 {
@@ -191,6 +196,10 @@ func (o QuickSortParallelized) Sort(s SortInterface){
 	parallelizedQuickSort(s, numCPU)
 }
 
+func (o QuickSortParallelized) SetNumCPUs(n int) {
+	o.NCPU = n
+}
+
 func (o ShellSortParallelized) Sort(s SortInterface){
 	var numCPU int
 	if o.NCPU <=0 {
@@ -200,4 +209,8 @@ func (o ShellSortParallelized) Sort(s SortInterface){
 	}
 	runtime.GOMAXPROCS(numCPU)
 	parallelizedShellSort(s, numCPU)
+}
+
+func (o ShellSortParallelized) SetNumCPUs(n int) {
+	o.NCPU = n
 }
