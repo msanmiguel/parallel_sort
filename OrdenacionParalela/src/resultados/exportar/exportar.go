@@ -15,14 +15,19 @@ func VolcarDatos(nombre string, test *daos.Test, resultados []*daos.ResultadoTes
 		fmt.Println("Error abriendo el fichero ", nombre)
 		os.Exit(-1)
 	}
+	first := true
 	for _,v := range resultados {
-		cadena := fmt.Sprintf("%d", v.Tiempo)
-		fichero.WriteString(cadena)
-		if v.TamanhoEntrada != ultimoTam {
-			fichero.WriteString("\n")
-			ultimoTam = v.TamanhoEntrada
+		if first {
+			first = !first
 		} else {
-			fichero.WriteString(",")
+			if v.TamanhoEntrada != ultimoTam {
+				fichero.WriteString("\n")
+				ultimoTam = v.TamanhoEntrada
+			} else {
+				fichero.WriteString(",")
+			}
+			cadena := fmt.Sprintf("%d", v.Tiempo)
+			fichero.WriteString(cadena)
 		}
 	}
 	fichero.Close()
