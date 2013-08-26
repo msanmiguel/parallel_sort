@@ -41,7 +41,7 @@ func main() {
 	
 	
 
-	var tamañosEntrada []int = []int{ 100 , 1000, 10000 }
+	var tamañosEntrada []int = []int{ 2000, 4000, 6000, 8000, 10000, 12000 }
 	var nPruebas int = 100
 	var test daos.Test
 	test.NCores = 1
