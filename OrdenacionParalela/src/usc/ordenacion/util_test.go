@@ -4,17 +4,17 @@ import (
 	"testing"
 )
 
-func TestEstaOrdenado(t *testing.T){
+func TestIsSorted(t *testing.T){
 
 	arrayVacio :=[]int{}
-	if !EstaOrdenado(arrayVacio){
-		t.Errorf("El array vacío no se considera ordenado")
+	if !IsSorted(arrayVacio){
+		t.Errorf("Empty array is not considered in order")
 	}
 
 }
 
-func TestCrearArrayAleatorio(t *testing.T) {
-	array := CrearArrayAleatorio(100)
+func TestCreateRandomArray(t *testing.T) {
+	array := CreateRandomArray(100)
 	if len(array) != 100 {
 		t.Errorf("La longitud del array creado no es correcta");
 	}
