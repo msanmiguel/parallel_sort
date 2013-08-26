@@ -19,15 +19,15 @@ func main() {
 	//algoritmos de ordenación secuencial enteros
 	var SSIntegers []integers.SequentialSort = []integers.SequentialSort{integers.GolangSort{}, 
 																		integers.QuickSortSequential {},
-																		integers.InsertionSortSequential{},
-																		integers.BubbleSortSequential{}, 
+																		//integers.InsertionSortSequential{},
+																		//integers.BubbleSortSequential{}, 
 																		integers.ShellSortSequential{},
 																		integers.RadixSortSequential{},
 																		integers.BitonicMergeSortSequential{}}
 	
 	
 
-	var tamañosEntrada []int = []int{ 2000, 4000, 6000, 8000 }
+	var tamañosEntrada []int = []int{ 50000, 100000, 150000, 200000, 250000, 300000 }
 	var nPruebas int = 100
 	var test daos.Test
 	test.NCores = 1

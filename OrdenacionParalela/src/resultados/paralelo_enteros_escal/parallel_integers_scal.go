@@ -26,7 +26,7 @@ func main() {
  																	integers.HistogramSort{NCPU}}
 
 
-	var tamañosEntrada []int = []int{1000, 2000, 4000, 8000}
+	var tamañosEntrada []int = []int{ 20000, 40000, 80000 }
 	var nPruebas int = 100
 	var test daos.Test
 	NCPU = 1
