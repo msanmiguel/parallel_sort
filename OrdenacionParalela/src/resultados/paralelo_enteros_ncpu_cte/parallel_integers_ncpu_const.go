@@ -50,6 +50,7 @@ func main() {
 		fmt.Printf("**************************** size array == %d  ***********************************\n", v)
 		for _, w:= range PSIntegers{
 			result.Algoritmo = reflect.TypeOf(w).Name() +" (integers)"
+			fmt.Println(reflect.TypeOf(w).Name())
 			var sumT int = 0
 			var j int = 0
 			for j = 0 ;j < nPruebas; j++{ //Se hacen n ejecuciones para calcular el promedio
@@ -76,9 +77,9 @@ func main() {
 		b := make([]int, len(a))
 		for _, w:= range PSIntegers{
 			result.Algoritmo = reflect.TypeOf(w).Name() +" (integers)"
+			fmt.Println(reflect.TypeOf(w).Name())
 			var sumT int = 0
 			var j int = 0
-			fmt.Println(w)
 			for j = 0 ;j < nPruebas; j++{ //Se hacen n ejecuciones para calcular el promedio
 				copy(b, a)
 				t1 := time.Now()
@@ -105,6 +106,7 @@ func main() {
 		b := make([]int, len(a))
 		for _, w:= range PSIntegers{
 			result.Algoritmo = reflect.TypeOf(w).Name() +" (integers)"
+			fmt.Println(reflect.TypeOf(w).Name())
 			var sumT int = 0
 			var j int = 0
 			for j = 0 ;j < nPruebas; j++{ //Se hacen n ejecuciones para calcular el promedio

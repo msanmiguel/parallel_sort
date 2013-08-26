@@ -54,6 +54,7 @@ func main() {
 		fmt.Printf("****************************Tamaño entrada == %d  ***********************************\n", v)
 		for _, w:= range SSgeneric{
 			result.Algoritmo = reflect.TypeOf(w).Name() +" (generics)"
+			fmt.Println(reflect.TypeOf(w).Name())
 			var sumT int = 0
 			var j int = 0
 			is := IntSlice {}
@@ -83,6 +84,7 @@ func main() {
 		b := make([]int, len(a))
 		for _, w:= range SSgeneric{
 			result.Algoritmo = reflect.TypeOf(w).Name() +" (generics)"
+			fmt.Println(reflect.TypeOf(w).Name())
 			var sumT int = 0
 			var j int = 0
 			is := IntSlice { b }
@@ -112,6 +114,7 @@ func main() {
 		b := make([]int, len(a))
 		for _, w:= range SSgeneric{
 			result.Algoritmo = reflect.TypeOf(w).Name() +" (generics)"
+			fmt.Println(reflect.TypeOf(w).Name())
 			var sumT int = 0
 			var j int = 0
 			is := IntSlice { b }

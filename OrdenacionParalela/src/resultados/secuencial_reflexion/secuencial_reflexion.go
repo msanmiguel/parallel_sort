@@ -46,6 +46,7 @@ func main() {
 		fmt.Printf("****************************Tamaño entrada == %d  ***********************************\n", v)
 		for _, w:= range SSReflect{
 			result.Algoritmo = reflect.TypeOf(w).Name() +" (reflexion)"
+			fmt.Println(reflect.TypeOf(w).Name())
 			var sumT int = 0
 			var j int = 0
 			for j = 0 ;j < nPruebas; j++{ //Se hacen n ejecuciones para calcular el promedio
@@ -74,6 +75,7 @@ func main() {
 		b := make([]int, len(a))
 		for _, w:= range SSReflect{
 			result.Algoritmo = reflect.TypeOf(w).Name() +" (reflexion)"
+			fmt.Println(reflect.TypeOf(w).Name())
 			var sumT int = 0
 			var j int = 0
 			for j = 0 ;j < nPruebas; j++{ //Se hacen n ejecuciones para calcular el promedio
@@ -102,6 +104,7 @@ func main() {
 		b := make([]int, len(a))
 		for _, w:= range SSReflect{
 			result.Algoritmo = reflect.TypeOf(w).Name() +" (reflexion)"
+			fmt.Println(reflect.TypeOf(w).Name())
 			var sumT int = 0
 			var j int = 0
 			for j = 0 ;j < nPruebas; j++{ //Se hacen n ejecuciones para calcular el promedio
