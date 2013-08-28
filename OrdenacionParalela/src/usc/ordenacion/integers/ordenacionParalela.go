@@ -155,7 +155,7 @@ func parallelQuicksort(id, NCPU int, a []int, control, data, returnedData []chan
 func parallelizedShellSort(a []int, NCPU int){
 	salto:= len(a)/2
 	c := make(chan int)
-	for salto >= 1 {
+	for salto >= NCPU {
 		for k := 0; k < NCPU; k++ {
 				go shellsort(a,salto,c,k, NCPU)
 		}
@@ -164,6 +164,7 @@ func parallelizedShellSort(a []int, NCPU int){
 		}
 		salto=salto/2
 	}
+	insertionSortSequential(a)
 }
 
 func shellsort(a []int, salto int, c chan int, k int, NCPU int){

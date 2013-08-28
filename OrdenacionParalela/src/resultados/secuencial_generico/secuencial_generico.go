@@ -35,13 +35,13 @@ func main() {
 
 	var SSgeneric []generic.SequentialSort = []generic.SequentialSort { generic.QuickSortSequential {}, 
 																		generic.ShellSortSequential {}, 
-																		generic.BubbleSortSequential {}, 
-																		generic.InsertionSortSequential {}, 
+																		// generic.BubbleSortSequential {}, 
+																		// generic.InsertionSortSequential {}, 
 																		generic.BitonicMergesortSequential {}}
 	
 	
 
-	var tamañosEntrada []int = []int{ 2000, 4000, 6000, 8000 }
+	var tamañosEntrada []int = []int{ 50000, 100000, 150000, 200000, 250000, 300000 }
 	var nPruebas int = 100
 	var test daos.Test
 	test.NCores = 1

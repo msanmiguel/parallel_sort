@@ -40,7 +40,7 @@ func main() {
  																	generic.ShellSortParallelized { NCPU } }
 
 
-	var tamañosEntrada []int = []int{10000, 20000, 40000, 80000}
+	var tamañosEntrada []int = []int{ 50000, 100000, 150000, 200000, 250000, 300000 }
 	var nPruebas int = 100
 	var test daos.Test
 	NCPU = 1
