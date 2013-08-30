@@ -60,7 +60,7 @@ func main() {
 		result.TamanhoEntrada = v
 		fmt.Printf("**************************** size array == %d  ***********************************\n", v)
 		for _, w:= range PSgeneric{
-			result.Algoritmo = reflect.TypeOf(w).Name() +" (integers)"
+			result.Algoritmo = reflect.TypeOf(w).Name() +" (generic)"
 			var sumT int = 0
 			var j int = 0
 			is := IntSlice { }
@@ -86,7 +86,7 @@ func main() {
 		a := ordenacion.CreateAscendingArray(v)
 		b := make([]int, len(a))
 		for _, w:= range PSgeneric{
-			result.Algoritmo = reflect.TypeOf(w).Name() +" (integers)"
+			result.Algoritmo = reflect.TypeOf(w).Name() +" (generic)"
 			var sumT int = 0
 			var j int = 0
 			is := IntSlice { b }
@@ -115,7 +115,7 @@ func main() {
 		
 		b := make([]int, len(a))
 		for _, w:= range PSgeneric{
-			result.Algoritmo = reflect.TypeOf(w).Name() +" (integers)"
+			result.Algoritmo = reflect.TypeOf(w).Name() +" (generic)"
 			var sumT int = 0
 			var j int = 0
 			is := IntSlice { b }

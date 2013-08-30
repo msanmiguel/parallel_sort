@@ -41,7 +41,7 @@ func main() {
 																		reflection.ParallellSortRegularSampling {NCPU}}
 	
 
-	var tamañosEntrada []int = []int{ 100 , 1000, 10000 }
+	var tamañosEntrada []int = []int{ 50000, 100000, 150000, 200000, 250000, 300000 }
 	var nPruebas int = 100
 	var test daos.Test
 	test.NCores = NCPU
