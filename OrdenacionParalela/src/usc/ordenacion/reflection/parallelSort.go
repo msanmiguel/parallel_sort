@@ -44,7 +44,7 @@ func parallelizedShellSort(in interface{}, comp Comparator, NCPU int){
 	v := reflect.ValueOf(in)
 	jump:= v.Len()/2
 	c := make(chan int)
-	for jump >= 1 {
+	for jump >= NCPU {
 		for k := 0; k < NCPU; k++ {
 				go shellSort(in, comp, jump, c, k, NCPU)
 		}
@@ -53,6 +53,7 @@ func parallelizedShellSort(in interface{}, comp Comparator, NCPU int){
 		}
 		jump = jump/2
 	}
+	insertionSortSequential(in, comp)
 }
 
 func shellSort(in interface{}, comp Comparator, jump int, c chan int, k int, NCPU int){
