@@ -10,7 +10,7 @@ This library implements several sequential and parallel sorting algorithms for i
 
 To use it just create an instance of the algorithm and call the Sort method, like in the following example:
 
-  s := []int{5, 1, 9, 10}
+  	s := []int{5, 1, 9, 10}
 	qs := integers.QuickSortParallel {}
 	qs.SetNumCPU(4)
 	qs.Sort(s)
