@@ -1,3 +1,5 @@
+// María Sanmiguel Suarez. 2013
+
 package integers
 
 import(
@@ -218,20 +220,37 @@ func radixSortSequential(a []int){
 }
 
 
-
+// An interface which defines the methods of any sequential sorting algorithm implemented
+// in this package.
 type SequentialSort interface{
 	Sort(a []int)
 }
 
+// Implementation of the sequential Quicksort algorithm. This implementation
+// uses insertion sort when the size of the array is small.
 type QuickSortSequential struct{}
+
+// Implementation of the Shellsort algorithm. This implementation uses the gap
+// sequence originally proposed by Shell.
 type ShellSortSequential struct{}
+
+// Implementation of the insertion sort algorithm.
 type InsertionSortSequential struct{}
+
+// Implementation of the Bubblesort algorithm.
 type BubbleSortSequential struct{}
+
+// Implementation of the sequential Bitonic mergesort algorithm, based on the paper
+// 'Parallelizing the Merge Sorting Network Algorithm on a
+// Multi-Core Computer Using Go and Cilk'. This implementation has been
+// generalized to array sizes non power of two.
 type BitonicMergeSortSequential struct{}
+
+// Implementation of the Radixsort algorithm for integer keys.
 type RadixSortSequential struct{}
 
 
-// Estructuras y metodos necesiarios para usar la libreria de ordenacion sort de Go
+// Proxy implementation to the sort algorithm provided by the Go library in the sort package.
 type GolangSort struct{}
 type  OrdenarSlice struct {
 	a []int
@@ -245,7 +264,6 @@ func (s OrdenarSlice) Swap(i,j int){
 func (s OrdenarSlice) Less(i, j int) bool{
 	 return s.a[i]<s.a[j]		
 }
-
 
 func (o GolangSort) Sort(a []int){
 	sort.Sort(OrdenarSlice{a})

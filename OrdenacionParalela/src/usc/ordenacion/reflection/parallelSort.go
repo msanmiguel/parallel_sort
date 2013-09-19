@@ -1,3 +1,45 @@
+// María Sanmiguel Suarez. 2013
+
+/*
+Package reflection provides functions to sort slices of any type, with the help
+of the reflect package in Go library. These implementations are not particularily
+efficient, since the reflect library adds a huge overhead on execution, but it is
+useful to sort small sets of elements without the need of defining Len and Swap functions,
+as it is required with the generic package of this library, or the Go's sort package.
+
+The functions in this package can be used creating an instance of any sorting interface
+and calling then the Sort method. Also a type which implements the Comparator interface
+must be defined. This interfaces receives two values of the collection and returns
+-1, 0 or 1 depending of the first value is lower, equal or greater than the second. An
+example implementation can be:
+
+	type IntSorter struct {}
+	func (i IntSorter) Compare(i1, i2 interface{})int {
+		v1 := i1.(int)
+		v2 := i2.(int)
+		return v1-v2
+	}
+
+Once this comparator is defined, it can be used to sort any slice of integers:
+
+	s := ordenacion.CreateRandomArray(100)
+	is := IntSorter {}
+	qs := reflection.QuickSortSequential {}
+	qs.Sort(s, is)
+
+In case of the parallel version of any algorithm:
+
+	s := ordenacion.CreateRandomArray(100)
+	is := IntSorter {}
+	qs := reflection.QuickSortParallel {}
+	qs.SetNumCPUs(4)
+	qs.Sort(s, is)
+
+If the number of parallel processes is not set, or is set to a value lower or equal than
+zero, then the library will automatically detect the number of CPUs of the system, as
+returned by the runtime.GOMAXPROCS function.
+
+*/
 package reflection
 
 import(
@@ -284,23 +326,41 @@ func searchPivot(a interface {}, p interface {}, comp Comparator) int{
 	return inf
 }
 
+// An interface which defines the methods of any parallel sorting algorithm implemented
+// in this package.
 type ParallelSort interface{
+	// Sorts the slice received as a parameter. This slice can be of any type, as long as
+	// the Comparator received as a parameter works with the type of the elements of the slice.
 	Sort(a interface{}, comp Comparator)
+	// Sets de number of parallel processes to sort the slices. If n is <=0 the
+	// number of processes created will be equal to the number of detected CPUs.
 	SetNumCPUs(n int)
 }
 
+// Implementation of a parallelized Quicksort algoritm. This is is based on the
+// classical Quicksort algorithm, executing the recursive calls in parallel
+// gorutines, creating them until its number achieves the maximum number of
+// parallel processes configured.
 type QuickSortParallelized struct{
 	NCPU  int
 }
 
+// Implementation of a parallelized Shellsort algorithm. In this implementation
+// parallel processes are created to process different positions of the input slice
+// for each gap. The gap sequence implemented is the original proposed by Shell.
 type ShellSortParallelized struct{
 	NCPU int
 }
 
+// Implementation of the parallel Bitonic mergesort algorithm, based on the paper
+// 'Parallelizing the Merge Sorting Network Algorithm on a
+// Multi-Core Computer Using Go and Cilk'. This implementation has been
+// generalized to array sizes non power of two.
 type BitonicMergeSortParallelized struct{
 	NCPU int
 }
 
+// Implementation of the Parallel Sort by Regular Sampling algorithm.
 type ParallellSortRegularSampling struct{
 	NCPU int
 }

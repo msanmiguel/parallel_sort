@@ -1,3 +1,5 @@
+// María Sanmiguel Suarez. 2013
+
 package reflection
 
 import(
@@ -6,8 +8,14 @@ import(
 	_"sort"
 )
 
-
+// Interface to be implemented to provide a comparator between values
+// of the slice.
 type Comparator interface{
+	// Compare function to be used by the sorting algorithms of this package.
+	// The returned value of must be:
+	// <=0 if i1 < i2,
+	// = 0 if i1 == i2,
+	// >=0 if i1 > i2.
 	Compare(i1, i2 interface{})int
 }
 
@@ -192,18 +200,32 @@ func shellSortSequential(in interface{}, c Comparator){
 	}
 }
 
+// An interface which defines the methods of any sequential sorting algorithm implemented
+// in this package.
 type SequentialSort interface{
+	// Sorts the slice received as a parameter. This slice can be of any type, as long as
+	// the Comparator received as a parameter works with the type of the elements of the slice.
 	Sort(i interface {}, c Comparator)
 }
 
+// Implementation of the Bubblesort algorithm.
 type BubbleSortSequential struct{}
 
+// Implementation of the insertion sort algorithm.
 type InsertionSortSequential struct{}
 
+// Implementation of the sequential Bitonic mergesort algorithm, based on the paper
+// 'Parallelizing the Merge Sorting Network Algorithm on a
+// Multi-Core Computer Using Go and Cilk'. This implementation has been
+// generalized to array sizes non power of two.
 type BitonicMergesortSequential struct{}
 
+// Implementation of the sequential Quicksort algorithm. This implementation
+// uses insertion sort when the size of the array is small.
 type QuickSortSequential struct{}
 
+// Implementation of the Shellsort algorithm. This implementation uses the gap
+// sequence originally proposed by Shell.
 type ShellSortSequential struct{}
 
 

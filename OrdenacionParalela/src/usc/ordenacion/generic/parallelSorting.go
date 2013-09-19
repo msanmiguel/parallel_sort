@@ -1,3 +1,44 @@
+// María Sanmiguel Suarez. 2013
+
+/*
+Package generic provides functions to sort collections of any type, in the same
+style as the Go sort library. This package only asks for an implementation of the
+interface SortInterface to provide proxy functions to the underlying collection.
+Elements in this collection must be accesible by indexing with an integer value.
+
+If a slice of integers is to be sorted with a call to a function of this package,
+the SortInterface defined can have this form:
+
+	type IntSlice []int
+	func (s IntSlice) Len() {
+		return len(s)
+	}
+	func (s IntSlice) Swap(i, j int) {
+		s[i], s[j] = s[j], s[i]
+	}
+	func (s IntSlice) Compare(i, j int) int {
+		return s[i]-s[j]
+	}
+
+Once this structure is defined, a call to an algorithm can be done by creating an
+instance to any sorting interface, and calling the Sort method:
+
+	s := ordenacion.CreateRandomArray(100)
+	qs := generic.QuickSortSequential {}
+	qs.Sort(s)
+
+In case of a parallel algorithm:
+
+	s := ordenacion.CreateRandomArray(100)
+	qs := generic.QuickSortParallel {}
+	qs.SetNumCPUs(4)
+	qs.Sort(s)
+
+If the number of parallel processes is not set, or is set to a value lower or equal than
+zero, then the library will automatically detect the number of CPUs of the system, as
+returned by the runtime.GOMAXPROCS function.
+
+*/
 package generic
 
 import (
@@ -155,17 +196,35 @@ func halfCleanTrozo(s SortInterface, inf, sup, m int, direction bool, j int, NCP
 	c<-0
 }
 
+// An interface which defines the methods of any parallel sorting algorithm implemented
+// in this package.
 type ParallelSort interface {
+	// Sort sorts the array of slices received as a parameter.
 	Sort(s SortInterface)
+	// Sets de number of parallel processes to sort the slices. If n is <=0 the
+	// number of processes created will be equal to the number of detected CPUs.
 	SetNumCPUs(n int)
 }
 
+// Implementation of the parallel Bitonic mergesort algorithm, based on the paper
+// 'Parallelizing the Merge Sorting Network Algorithm on a
+// Multi-Core Computer Using Go and Cilk'. This implementation has been
+// generalized to array sizes non power of two.
 type BitonicMergeSortParallelized struct {
 	NCPU int
 }
+
+// Implementation of a parallelized Quicksort algoritm. This is is based on the
+// classical Quicksort algorithm, executing the recursive calls in parallel
+// gorutines, creating them until its number achieves the maximum number of
+// parallel processes configured.
 type QuickSortParallelized struct {
 	NCPU int
 }
+
+// Implementation of a parallelized Shellsort algorithm. In this implementation
+// parallel processes are created to process different positions of the input slice
+// for each gap. The gap sequence implemented is the original proposed by Shell.
 type ShellSortParallelized struct{
 	NCPU int
 }

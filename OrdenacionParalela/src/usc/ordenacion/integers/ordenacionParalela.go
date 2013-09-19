@@ -1,3 +1,29 @@
+// María Sanmiguel Suarez. 2013
+
+/*
+Package integers provides functions to sort slices of ints. These
+implementations are more efficient than using the generic package creating
+an interface for slices of integers, since overhead by function calls is
+avoided.
+
+The functions in this package can be used creating an instance of any sorting interface
+and calling then the Sort method. For instance, for the Quicksort algorithm:
+
+	s := ordenacion.CreateRandomArray(100)
+	qs := integers.QuickSortSequential {}
+	qs.Sort(s)
+
+In case of a parallel algorithm:
+
+	s := ordenacion.CreateRandomArray(100)
+	qs := integers.QuickSortParallel {}
+	qs.SetNumCPUs(4)
+	qs.Sort(s)
+
+If the number of parallel processes is not set, or is set to a value lower or equal than
+zero, then the library will automatically detect the number of CPUs of the system, as
+returned by the runtime.GOMAXPROCS function.
+*/
 package integers
 
 import(
@@ -720,30 +746,58 @@ func searchPivot(a []int, p int) int{
 	return inf
 }
 
-
+// An interface which defines the methods of any parallel sorting algorithm implemented
+// in this package.
 type ParallelSort interface{
+	// Sorts the slice of integers received as a parameter.
 	Sort(a  []int)
+	// Sets de number of parallel processes to sort the slices. If n is <=0 the
+	// number of processes created will be equal to the number of detected CPUs.
 	SetNumCPUs(n int)
 }
 
+// Implementation of a parallelized Quicksort algoritm. This is is based on the
+// classical Quicksort algorithm, executing the recursive calls in parallel
+// gorutines, creating them until its number achieves the maximum number of
+// parallel processes configured.
 type QuickSortParallelized struct{
 	NCPU  int
 }
+
+// Implementation of a parallelized Shellsort algorithm. In this implementation
+// parallel processes are created to process different positions of the input slice
+// for each gap. The gap sequence implemented is the original proposed by Shell.
 type ShellSortParallelized struct{
 	NCPU int
 }
+
+// Implementation of the Parallel Quicksort algorithm as described in 
+// 'Parallel Programming in C with MPI and OpenMP'. This algorithm only
+// works for a power of two number of parallel processes.
 type ParallelQuickSort struct{
 	NCPU int
 }
+
+// Implementation of the parallel Bitonic mergesort algorithm, based on the paper
+// 'Parallelizing the Merge Sorting Network Algorithm on a
+// Multi-Core Computer Using Go and Cilk'. This implementation has been
+// generalized to array sizes non power of two.
 type BitonicMergeSortParallelized struct{
 	NCPU int
 }
+
+// Implementation of a parallelized version of the Radix sort algorithm for
+// integer keys.
 type RadixSortParallelized struct{
 	NCPU int
 }
+
+// Implementation of the Parallel Sort by Regular Sampling algorithm.
 type ParallellSortRegularSampling struct{
 	NCPU int
 }
+
+// Implementation of the Histogram sort algorithm.
 type HistogramSort struct {
 	NCPU int
 }
